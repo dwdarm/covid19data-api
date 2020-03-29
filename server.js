@@ -2,7 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const server = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 const db = require('./db');
 
 server.set('trust proxy', 1);
