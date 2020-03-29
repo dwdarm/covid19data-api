@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+  <title>COVID-19 Data API</title>
+</head>
+<body>
+
+  <section class="hero is-dark">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title">COVID-19 Data API</h1>
+        <p class="subtitle">Source: <a href="https://github.com/CSSEGISandData/COVID-19">Johns Hopkins CSSE</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-5">Endpoints</h2>
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>URI</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="/summary">/summary</a></td>
+            <td>Get aggregated stats for all time</td>
+          </tr>
+          <tr>
+            <td><a href="/summary/latest">/summary/latest</a></td>
+            <td>Get latest aggregated stats</td>
+          </tr>
+          <tr>
+            <td><a href="/countries">/countries</a></td>
+            <td>Get dataset for all countries for all time</td>
+          </tr>
+          <tr>
+            <td><a href="/countries/us">/countries/:country</a></td>
+            <td>Get dataset for a specified country for all time</td>
+          </tr>
+          <tr>
+            <td><a href="/countries/us/latest">/countries/:country/latest</a></td>
+            <td>Get latest dataset for a specified country</td>
+          </tr>
+          <tr>
+            <td><a href="/country">/country</a></td>
+            <td>Get list of all available country</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="subtitle is-7">Author: Fajar Dwi Darmanto</p>
+    </div>
+  </footer>
+  
+</body>
+</html>
