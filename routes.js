@@ -4,9 +4,10 @@ module.exports = (server, db) => {
    * /GET /summary
    */
 
-  server.get('/summary', (req, res) => {
+  server.get('/summary', async (req, res) => {
     try {
-      res.send(db.summary);
+      const data = await db.getSummary() ;
+      res.send(data);
     } catch(err) {
       res.sendStatus(500);
     }
@@ -16,9 +17,14 @@ module.exports = (server, db) => {
    * /GET /summary/latest
    */
 
-  server.get('/summary/latest', (req, res) => {
+  server.get('/summary/latest', async (req, res) => {
     try {
-      res.send({ updated_at: db.summary.updated_at, latest: db.summary.latest });
+      const data = await db.getSummary('latest');
+      if (!data) {
+        return res.sendStatus(404);
+      }
+
+      res.send(data);
     } catch(err) {
       res.sendStatus(500);
     }
@@ -28,9 +34,10 @@ module.exports = (server, db) => {
    * /GET /countries
    */
 
-  server.get('/countries', (req, res) => {
+  server.get('/countries', async (req, res) => {
     try {
-      res.send(db.all);
+      const data = await db.getCountries();
+      res.send(data);
     } catch(err) {
       res.sendStatus(500);
     }
@@ -40,16 +47,20 @@ module.exports = (server, db) => {
    * /GET /countries/:country
    */
 
-  server.get('/countries/:country', (req, res) => {
+  server.get('/countries/:country', async (req, res) => {
     try {
-      
-      for(let i = 0; i < db.all.length; i++) {
-        if (db.all[i]['Country/Region'].trim().toLowerCase() === req.params.country.trim().toLowerCase()) {
-          return res.send(db.all[i]);
-        }
+
+      if (req.params.country === 'latest') {
+        let data = await db.getCountries(null, 'latest', req.query.sort);
+        return res.send(data);
       }
 
-      res.sendStatus(404);
+      const data = await db.getCountries(req.params.country);
+      if (!data) {
+        return res.sendStatus(404);
+      }
+
+      res.send(data);
     } catch(err) {
       res.sendStatus(500);
     }
@@ -59,20 +70,14 @@ module.exports = (server, db) => {
    * /GET /countries/:country/latest
    */
 
-  server.get('/countries/:country/latest', (req, res) => {
+  server.get('/countries/:country/latest', async (req, res) => {
     try {
-      
-      for(let i = 0; i < db.all.length; i++) {
-        if (db.all[i]['Country/Region'].trim().toLowerCase() === req.params.country.trim().toLowerCase()) {
-          return res.send({
-            'Country/Region': db.all[i]['Country/Region'],
-            updated_at: db.all[i].updated_at,
-            latest: db.all[i].latest
-          });
-        }
+      const data = await db.getCountries(req.params.country, 'latest');
+      if (!data) {
+        return res.sendStatus(404);
       }
 
-      res.sendStatus(404);
+      res.send(data);
     } catch(err) {
       res.sendStatus(500);
     }
@@ -82,9 +87,10 @@ module.exports = (server, db) => {
    * /GET /country
    */
 
-  server.get('/country', (req, res) => {
+  server.get('/country', async (req, res) => {
     try {
-      res.send(db.all.map(e => e['Country/Region']));
+      const data = await db.getCountry();
+      res.send(data);
     } catch(err) {
       res.sendStatus(500);
     }
